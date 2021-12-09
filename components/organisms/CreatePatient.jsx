@@ -1,18 +1,10 @@
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-} from '@chakra-ui/react'
 import { useReducer, useState } from "react";
-import { Flex, Text, Stack } from "@chakra-ui/layout";
+import { Flex, Text } from "@chakra-ui/layout";
 import { Input, InputGroup } from "@chakra-ui/input";
 import { Select } from "@chakra-ui/select";
 import { InputRightElement, InputLeftAddon } from "@chakra-ui/input";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { Radio, RadioGroup } from "@chakra-ui/radio";
+import PriorIllnessesTable from "../molecules/PriorIllnessesTable";
 
 const formInitialState = {
   names: "",
@@ -44,6 +36,79 @@ const formInitialState = {
   daily_cigarettes: 0,
   is_pregnant: false,
   gestation_months: 0,
+}
+
+const priorIllnessesInitialState = {
+  question_1: {
+    title: "Fiebre reumática o enfermedad cardiáca reumática",
+    has_illness: false,
+    specify: ""
+  },
+  question_2: {
+    title: "Enfermedades cardiovasculares",
+    has_illness: false,
+    specify: ""
+  },
+  question_3: {
+    title: "Mareos, desmayos o ataques",
+    has_illness: false,
+    specify: ""
+  },
+  question_4: {
+    title: "Diabetes",
+    has_illness: false,
+    specify: ""
+  },
+  question_5: {
+    title: "Hepatitis",
+    has_illness: false,
+    specify: ""
+  },
+  question_6: {
+    title: "VIH positivo/SIDA",
+    has_illness: false,
+    specify: ""
+  },
+  question_7: {
+    title: "Artritis o reumatismo",
+    has_illness: false,
+    specify: ""
+  },
+  question_8: {
+    title: "Gastritis o úlceras gástricas",
+    has_illness: false,
+    specify: ""
+  },
+  question_9: {
+    title: "Problemas renales",
+    has_illness: false,
+    specify: ""
+  },
+  question_10: {
+    title: "Anémia",
+    has_illness: false,
+    specify: ""
+  },
+  question_11: {
+    title: "Presión arterial alta o baja",
+    has_illness: false,
+    specify: ""
+  },
+  question_12: {
+    title: "Sangrado anormal con extracciones dentales o cortaduras",
+    has_illness: false,
+    specify: ""
+  },
+  question_13: {
+    title: "Se le hacen moretones con facilidad",
+    has_illness: false,
+    specify: ""
+  },
+  question_14: {
+    title: "Ha requerido transfusiones sanguineas",
+    has_illness: false,
+    specify: ""
+  },
 }
 
 const formReducer = (state, action) =>  {
@@ -81,6 +146,14 @@ const formReducer = (state, action) =>  {
   }
 }
 
+const priorIllnessesReducer = (state, action) => {
+  
+  switch(action.type) {
+    case 'question_1_has_illness':
+      return { ...state, question_1: { ...state.question_1, has_illness: !!parseInt(action.payload, 10) } }
+  }
+}
+
 const validateEmail = (email) => {
   return String(email)
     .toLowerCase()
@@ -91,8 +164,10 @@ const validateEmail = (email) => {
 
 const CreatePatient = ({}) => {
   const [formState, dispatch] = useReducer(formReducer, formInitialState);
+  const [priorIllnessesState, setPriorIllnesses] = useReducer(priorIllnessesReducer, priorIllnessesInitialState);
   const [validEmail, setValidEmail] = useState(false);
-  console.log(formState);
+  // console.log(formState);
+  console.log(priorIllnessesState);
   
   return (
     <Flex direction="column" align="center" justify="center" width="100%">
@@ -245,213 +320,7 @@ const CreatePatient = ({}) => {
           />
         </InputGroup>
       </Flex>
-
-      <Table variant="striped" colorScheme="blue">
-        <Thead>
-          <Tr>
-            <Th colSpan={2}>¿Padece o ha padecido alguna de las siguientes enfermedades?</Th>
-            <Th colSpan={1}>Especifique</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>Fiebre reumática o enfermedad cardiáca reumática</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Enfermedades cardiovasculares</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Mareos, desmayos o ataques</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Diabetes</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Hepatitis</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>VIH positivo/SIDA</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Artritis o reumatismo</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Gastritis o úlceras gástricas</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Problemas renales</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Anémia</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Presión arterial alta o baja</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Sangrado anormal con extracciones dentales o cortaduras</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Se le hacen moretones con facilidad</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Ha requerido transfusiones sanguineas</Td>
-            <Td>
-              <RadioGroup>
-                <Stack direction='row'>
-                  <Radio value='1'>Si</Radio>
-                  <Radio value='2'>No</Radio>
-                </Stack>
-              </RadioGroup>
-            </Td>
-            <Td>
-              <Input type="text" variant="flushed" placeholder="Especifique"></Input>
-            </Td>
-          </Tr>
-        </Tbody>
-      </Table>
+        <PriorIllnessesTable children={priorIllnessesInitialState} priorIllnessesState={priorIllnessesState} setPriorIllnesses={setPriorIllnesses}></PriorIllnessesTable>
     </Flex>
   )
 }

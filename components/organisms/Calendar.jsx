@@ -12,16 +12,16 @@ const Calendar = ({}) => {
 		setAppointments(req_appointments);
 	}, [])
 
-	const businessHours = [ // specify an array instead
+	const businessHours = [
 		{
-			daysOfWeek: [ 1, 2, 3 ], // Monday, Tuesday, Wednesday
-			startTime: '08:00', // 8am
-			endTime: '18:00' // 6pm
+			daysOfWeek: [ 1, 2, 3, 4, 5 ],
+			startTime: '08:00',
+			endTime: '18:00'
 		},
 		{
-			daysOfWeek: [ 4, 5 ], // Thursday, Friday
-			startTime: '10:00', // 10am
-			endTime: '16:00' // 4pm
+			daysOfWeek: [ 6, 7 ],
+			startTime: '10:00',
+			endTime: '16:00'
 		}
 	]
 
