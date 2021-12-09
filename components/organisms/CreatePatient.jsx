@@ -109,7 +109,7 @@ const extraInformationInitialState = {
   question_1: {
     title: "¿Algún miembro de su familia padece o padeció?",
     illnesses_names: ["Diabetes", "Enfermedades del corazón", "Hipertensión", "Cáncer"],
-    has_illnesses: [false, false, false, false],
+    has_illnesses: []
   },
   question_2: {
     title: "¿Recibe tratamiento médico actualmente?",
@@ -117,12 +117,12 @@ const extraInformationInitialState = {
   },
   question_3: {
     title: "¿A presentado problemas graves relacionados con tratamientos dentales previos?",
-    under_treatment: false,
+    severe_problems: false,
     problems: ""
   },
   question_4: {
     title: "¿Está tomando algún medicamento?",
-    under_treatment: false,
+    taking_drugs: false,
     drug: ""
   },
   question_5: {
@@ -132,7 +132,7 @@ const extraInformationInitialState = {
   question_6: {
     title: "¿Tiene alguna addicción?",
     addiction: false,
-    sub_title_1: "¿Cuál?",
+    sub_title_1: "¿Cuál(es)?",
     addictions: "",
     sub_title_2: "¿Fuma?",
     smokes: false,
@@ -243,7 +243,28 @@ const priorIllnessesReducer = (state, action) => {
 
 const extraInformationReducer = (state, action) => {
   switch (action.type) {
-
+    case 'question_1':
+      return { ...state, question_1: { ...state.question_1, has_illnesses: action.payload } }
+    case 'question_2':
+      return { ...state, question_2: { ...state.question_2,  under_treatment: !!parseInt(action.payload) } }
+    case 'question_3_severe_problems':
+      return { ...state, question_3: { ...state.question_3,  severe_problems: !!parseInt(action.payload) } }
+    case 'question_3_problems':
+      return { ...state, question_3: { ...state.question_3,  problems: action.payload } }
+    case 'question_4_taking_drugs':
+      return { ...state, question_4: { ...state.question_4,  taking_drugs: !!parseInt(action.payload) } }
+    case 'question_4_drugs':
+      return { ...state, question_4: { ...state.question_4,  drug: action.payload } }
+    case 'question_5':
+      return { ...state, question_5: { ...state.question_5,  allergy: action.payload } }
+    case 'question_6_addiction':
+      return { ...state, question_6: { ...state.question_6,  addiction: !!parseInt(action.payload) } }
+    case 'question_6_addictions':
+      return { ...state, question_6: { ...state.question_6,  addictions: action.payload } }
+    case 'question_6_smokes':
+      return { ...state, question_6: { ...state.question_6,  smokes: !!parseInt(action.payload) } }
+    case 'question_6_daily_cigarettes':
+      return { ...state, question_6: { ...state.question_6,  daily_cigarettes: parseInt(action.payload) } }
   }
 }
 
@@ -420,7 +441,10 @@ const CreatePatient = ({}) => {
           priorIllnessesState={priorIllnessesState} 
           setPriorIllnesses={setPriorIllnesses}
         ></PriorIllnessesTable>
-        <ExtraInformation children={extraInformationInitialState}></ExtraInformation>
+        <ExtraInformation 
+          children={extraInformationInitialState}
+          setExtraInformationReducer={setExtraInformationReducer}
+        ></ExtraInformation>
     </Flex>
   )
 }
