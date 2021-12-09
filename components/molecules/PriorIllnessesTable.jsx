@@ -9,7 +9,7 @@ import {
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Stack, Input } from '@chakra-ui/react';
 
-const PriorIllnessesTable = ({ children, priorIllnessesState, setPriorIllnesses }) => {
+const PriorIllnessesTable = ({ children, setPriorIllnesses }) => {
   const childrenKeys = Object.keys(children);
   const childrenEntries = Object.entries(children);
   
@@ -36,10 +36,15 @@ const PriorIllnessesTable = ({ children, priorIllnessesState, setPriorIllnesses 
                   </RadioGroup>
                 </Td>
                 <Td>
-                  <Input type="text" variant="flushed" placeholder="Especifique"></Input>
+                  <Input 
+                    type="text" 
+                    variant="flushed" 
+                    placeholder="Especifique" 
+                    onChange={e => setPriorIllnesses({ type: `${childrenKeys[idx]}_specify`, payload: e.target.value })}
+                  ></Input>
                 </Td>
               </Tr>
-            )
+            );
           })
         }
       </Tbody>
