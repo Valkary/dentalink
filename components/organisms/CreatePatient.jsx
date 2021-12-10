@@ -6,6 +6,7 @@ import { InputRightElement, InputLeftAddon } from "@chakra-ui/input";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import PriorIllnessesTable from "../molecules/PriorIllnessesTable";
 import ExtraInformation from "../molecules/ExtraInformation";
+import { Button } from "@chakra-ui/react";
 
 const formInitialState = {
   names: "",
@@ -246,25 +247,25 @@ const extraInformationReducer = (state, action) => {
     case 'question_1':
       return { ...state, question_1: { ...state.question_1, has_illnesses: action.payload } }
     case 'question_2':
-      return { ...state, question_2: { ...state.question_2,  under_treatment: !!parseInt(action.payload) } }
+      return { ...state, question_2: { ...state.question_2,  under_treatment: !!parseInt(action.payload, 10) } }
     case 'question_3_severe_problems':
-      return { ...state, question_3: { ...state.question_3,  severe_problems: !!parseInt(action.payload) } }
+      return { ...state, question_3: { ...state.question_3,  severe_problems: !!parseInt(action.payload, 10) } }
     case 'question_3_problems':
       return { ...state, question_3: { ...state.question_3,  problems: action.payload } }
     case 'question_4_taking_drugs':
-      return { ...state, question_4: { ...state.question_4,  taking_drugs: !!parseInt(action.payload) } }
+      return { ...state, question_4: { ...state.question_4,  taking_drugs: !!parseInt(action.payload, 10) } }
     case 'question_4_drugs':
       return { ...state, question_4: { ...state.question_4,  drug: action.payload } }
     case 'question_5':
       return { ...state, question_5: { ...state.question_5,  allergy: action.payload } }
     case 'question_6_addiction':
-      return { ...state, question_6: { ...state.question_6,  addiction: !!parseInt(action.payload) } }
+      return { ...state, question_6: { ...state.question_6,  addiction: !!parseInt(action.payload, 10) } }
     case 'question_6_addictions':
       return { ...state, question_6: { ...state.question_6,  addictions: action.payload } }
     case 'question_6_smokes':
-      return { ...state, question_6: { ...state.question_6,  smokes: !!parseInt(action.payload) } }
+      return { ...state, question_6: { ...state.question_6,  smokes: !!parseInt(action.payload, 10) } }
     case 'question_6_daily_cigarettes':
-      return { ...state, question_6: { ...state.question_6,  daily_cigarettes: parseInt(action.payload) } }
+      return { ...state, question_6: { ...state.question_6,  daily_cigarettes: parseInt(action.payload, 10) } }
   }
 }
 
@@ -280,10 +281,14 @@ const CreatePatient = ({}) => {
   const [formState, dispatch] = useReducer(formReducer, formInitialState);
   const [priorIllnessesState, setPriorIllnesses] = useReducer(priorIllnessesReducer, priorIllnessesInitialState);
   const [extraInformation, setExtraInformationReducer] = useReducer(extraInformationReducer, extraInformationInitialState);
-  
+
   const [validEmail, setValidEmail] = useState(false);
 
-  console.log(extraInformation);
+  const sendForm = (formState, priorIllnesses, extraInformation) => {
+    const completeForm = { ...formState, prior_illnesses: priorIllnesses, other_information: extraInformation }
+    // TODO: registrar el paciente en la base de datos a traves del RestAPI
+    console.log(completeForm);
+  }
   
   return (
     <Flex direction="column" align="center" justify="center" width="100%">
@@ -445,6 +450,7 @@ const CreatePatient = ({}) => {
           children={extraInformationInitialState}
           setExtraInformationReducer={setExtraInformationReducer}
         ></ExtraInformation>
+        <Button type="button" colorScheme='blue' onClick={() => sendForm(formState, priorIllnessesState, extraInformation)}>Agregar Paciente</Button>
     </Flex>
   )
 }
