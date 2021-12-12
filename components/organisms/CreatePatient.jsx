@@ -7,6 +7,7 @@ import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import PriorIllnessesTable from "../molecules/PriorIllnessesTable";
 import ExtraInformation from "../molecules/ExtraInformation";
 import { Button } from "@chakra-ui/react";
+import axios from "axios";
 
 const formInitialState = {
   names: "",
@@ -277,6 +278,19 @@ const validateEmail = (email) => {
     );
 };
 
+const validateFullInformation = (information_object) => {
+  const entries = Object.entries(information_object);
+  let validated = true;
+
+  entries.forEach(entry => {
+    if (entry[1] === "") validated = false;
+    if (entry[0] === "email") validated = validateEmail(entry[1]);
+  })
+
+  console.log(validated);
+  return validated;
+}
+
 const CreatePatient = ({}) => {
   const [formState, dispatch] = useReducer(formReducer, formInitialState);
   const [priorIllnessesState, setPriorIllnesses] = useReducer(priorIllnessesReducer, priorIllnessesInitialState);
@@ -284,10 +298,9 @@ const CreatePatient = ({}) => {
 
   const [validEmail, setValidEmail] = useState(false);
 
-  const sendForm = (formState, priorIllnesses, extraInformation) => {
+  const sendForm = async (formState, priorIllnesses, extraInformation) => {
     const completeForm = { ...formState, prior_illnesses: priorIllnesses, other_information: extraInformation }
-    // TODO: registrar el paciente en la base de datos a traves del RestAPI
-    console.log(completeForm);
+    const post_patient = await (await axios.post('/api/patients/createPatient', { patient_obj: completeForm })).data;
   }
   
   return (
@@ -450,7 +463,12 @@ const CreatePatient = ({}) => {
           children={extraInformationInitialState}
           setExtraInformationReducer={setExtraInformationReducer}
         ></ExtraInformation>
-        <Button type="button" colorScheme='blue' onClick={() => sendForm(formState, priorIllnessesState, extraInformation)}>Agregar Paciente</Button>
+        <Button 
+          type="button" 
+          colorScheme='blue' 
+          disabled={!validateFullInformation(formState)}
+          onClick={() => sendForm(formState, priorIllnessesState, extraInformation)}
+        >Agregar Paciente</Button>
     </Flex>
   )
 }
