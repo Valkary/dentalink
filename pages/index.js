@@ -1,13 +1,15 @@
-import { ChakraProvider, Flex } from "@chakra-ui/react"
-import PatientHistory from '../components/organisms/PatientHistory'
-import LoginForm from '../components/organisms/LoginForm'
+import { ChakraProvider, Grid, GridItem } from "@chakra-ui/react";
+import LoginForm from '../components/organisms/LoginForm';
 import { AuthContextProvider } from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
-import Calendar from "../components/organisms/Calendar";
+import PatientHistory from '../components/organisms/PatientHistory';
 import CreatePatient from "../components/organisms/CreatePatient";
+import Menu from "../components/organisms/menu";
 
 export default function Home() {
-  const [credentials, setCredentials] = useState({loggedIn: false})
+  const [selectedPage, setSelectedPage] = useState("");
+  const [credentials, setCredentials] = useState({loggedIn: false});
+  const [openMenu, setOpenMenu] = useState(false);
 
   const log_in = (data) => {
     const { user_name, security_lvl, first_name, last_name } = data.user
@@ -19,24 +21,45 @@ export default function Home() {
         first_name: first_name,
         last_name: last_name,
         loggedIn: true
-      })
+      });
     }
   }
 
   useEffect(() => {}, [credentials.loggedIn]);
+
+  const switchRender = (selectedPage) => {
+    switch(selectedPage) {
+      case "":
+        return <PatientHistory userCreds={credentials}></PatientHistory>;
+      case "create_patient":
+        return <CreatePatient></CreatePatient>;
+    }
+  }
 
   return (
     <ChakraProvider>
       <AuthContextProvider
         children={ 
           credentials.loggedIn ?
-            <CreatePatient></CreatePatient> 
-            // <Flex direction="column" justify="center" align="center" width="100%" height="100%">
-            //   <Calendar></Calendar>
-            //   <PatientHistory userCreds={credentials}></PatientHistory>  
-            // </Flex> 
-            :
-            <LoginForm logFunc={log_in} ></LoginForm> 
+            <Grid
+              templateColumns="1fr 30fr"
+              height="100vh"
+              width="100vw"
+            >
+              <GridItem>
+                <Menu 
+                  pageSelector={setSelectedPage} 
+                  setSelectedPage={setSelectedPage}              
+                ></Menu>
+              </GridItem>
+              <GridItem>
+                {
+                  switchRender(selectedPage)
+                }
+              </GridItem>
+            </Grid>
+          :
+          <LoginForm logFunc={log_in}></LoginForm> 
         }
       >  
       </AuthContextProvider>

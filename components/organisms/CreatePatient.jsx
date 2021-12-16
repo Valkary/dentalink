@@ -287,7 +287,6 @@ const validateFullInformation = (information_object) => {
     if (entry[0] === "email") validated = validateEmail(entry[1]);
   })
 
-  console.log(validated);
   return validated;
 }
 
@@ -301,6 +300,8 @@ const CreatePatient = ({}) => {
   const sendForm = async (formState, priorIllnesses, extraInformation) => {
     const completeForm = { ...formState, prior_illnesses: priorIllnesses, other_information: extraInformation }
     const post_patient = await (await axios.post('/api/patients/createPatient', { patient_obj: completeForm })).data;
+
+    post_patient.warningStatus === 0 ? alert("Paciente agregado correctamente a la base de datos") : alert("Error al agregar el paciente a la base de datos!");
   }
   
   return (

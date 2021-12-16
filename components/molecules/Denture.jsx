@@ -22,7 +22,7 @@ const Denture = ({ isAdult, selectTooth, patientID }) => {
     const getDenture = await (await axios.post('/api/teeth/denture', { isAdult: isAdult, patientID: patientID })).data;
 
     setTeeth(getDenture);
-  }, [isAdult])
+  }, [patientID])
 
 
   return (
