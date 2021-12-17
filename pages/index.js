@@ -6,6 +6,48 @@ import PatientHistory from '../components/organisms/PatientHistory';
 import CreatePatient from "../components/organisms/CreatePatient";
 import Menu from "../components/organisms/menu";
 
+const menu_obj = {
+  patients: {
+    title: "Pacientes",
+    routes: {
+      route_1: {
+        title: "Crear Paciente",
+        action: "create_patient"
+      },
+      route_2: {
+        title: "Lista de Pacientes",
+        action: "patient_list"
+      }
+    }
+  },
+  users: {
+    title: "Usuarios",
+    routes: {
+      route_1: {
+        title: "Crear Usuario",
+        action: "create_user"
+      },
+      route_2: {
+        title: "Lista de Usuarios",
+        action: "patient_list"
+      }
+    }
+  },
+  calendar: {
+    title: "Calendario",
+    routes: {
+      route_1: {
+        title: "Ver Calendario",
+        action: "view_calendar"
+      },
+      route_2: {
+        title: "Agendar Cita",
+        action: "create_appointment"
+      }
+    }
+  }
+}
+
 export default function Home() {
   const [selectedPage, setSelectedPage] = useState("");
   const [credentials, setCredentials] = useState({loggedIn: false});
@@ -49,7 +91,8 @@ export default function Home() {
               <GridItem>
                 <Menu 
                   pageSelector={setSelectedPage} 
-                  setSelectedPage={setSelectedPage}              
+                  setSelectedPage={setSelectedPage}
+                  menu={menu_obj}             
                 ></Menu>
               </GridItem>
               <GridItem>
