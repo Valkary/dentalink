@@ -1,10 +1,14 @@
 import { ChakraProvider, Grid, GridItem } from "@chakra-ui/react";
-import LoginForm from '../components/organisms/LoginForm';
 import { AuthContextProvider } from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
+
+// Pages
+import LoginForm from '../components/organisms/LoginForm';
 import PatientHistory from '../components/organisms/PatientHistory';
 import CreatePatient from "../components/organisms/CreatePatient";
 import Menu from "../components/organisms/menu";
+import PatientTable from "../components/molecules/PatientTable";
+import Calendar from "../components/organisms/Calendar"
 
 const menu_obj = {
   patients: {
@@ -29,7 +33,7 @@ const menu_obj = {
       },
       route_2: {
         title: "Lista de Usuarios",
-        action: "patient_list"
+        action: "user_list"
       }
     }
   },
@@ -51,7 +55,6 @@ const menu_obj = {
 export default function Home() {
   const [selectedPage, setSelectedPage] = useState("");
   const [credentials, setCredentials] = useState({loggedIn: false});
-  const [openMenu, setOpenMenu] = useState(false);
 
   const log_in = (data) => {
     const { user_name, security_lvl, first_name, last_name } = data.user
@@ -75,6 +78,10 @@ export default function Home() {
         return <PatientHistory userCreds={credentials}></PatientHistory>;
       case "create_patient":
         return <CreatePatient></CreatePatient>;
+      case "patient_list":
+        return <PatientTable></PatientTable>;
+      case "view_calendar":
+        return <Calendar></Calendar>;
     }
   }
 
@@ -91,7 +98,6 @@ export default function Home() {
               <GridItem>
                 <Menu 
                   pageSelector={setSelectedPage} 
-                  setSelectedPage={setSelectedPage}
                   menu={menu_obj}             
                 ></Menu>
               </GridItem>

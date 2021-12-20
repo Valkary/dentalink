@@ -2,13 +2,9 @@ import { Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { GrClose } from 'react-icons/gr';
 import { useState } from "react";
-import {
-  List,
-  ListItem,
-  ListIcon,
-} from '@chakra-ui/react'
+import MenuSection from "../molecules/MenuSection";
 
-const Menu = ({ pageSelector, setSelectedPage, menu }) => {
+const Menu = ({ pageSelector, menu }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const menu_entries = Object.entries(menu);
 
@@ -21,7 +17,7 @@ const Menu = ({ pageSelector, setSelectedPage, menu }) => {
       backgroundColor="blue.500"
       className="menu"
       height="100%"
-      width="30%"
+      width="25%"
       position="absolute"
       zIndex="1000"
       rowGap={2}
@@ -66,47 +62,8 @@ const Menu = ({ pageSelector, setSelectedPage, menu }) => {
         rowStart={2}
         rowEnd={3}
         pl="5%"
-      >
-        <List spacing={3}>
-          {
-            menu_entries.map(entry => {
-              const [title, routes] = [entry[1].title, entry[1].routes];
-
-              const route_entries = Object.entries(routes);
-
-              return (
-                <>
-                  <Text
-                    fontSize='2xl' 
-                    color='white'
-                    as="i"
-                  >
-                    { title }
-                  </Text>
-                  <List spacing={2} pl="7%">
-                    {
-                      route_entries.map(route => {
-
-                        const [title, action] = [route[1].title, route[1].action];
-
-                        return (
-                          <ListItem onClick={() => pageSelector(action)}>
-                            <Text 
-                              fontSize='lg' 
-                              color='white'
-                            >
-                              { title }
-                            </Text>
-                          </ListItem>
-                        )
-                      })
-                    }
-                  </List>
-                </>
-              )
-            })
-          }
-        </List>
+      >        
+        <MenuSection children={menu_entries} pageSelector={pageSelector}></MenuSection>
       </GridItem>
     </Grid>
 
