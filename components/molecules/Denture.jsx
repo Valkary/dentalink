@@ -5,30 +5,33 @@ import axios from 'axios';
 
 const dimensions = 100;
 
-const Denture = ({ isAdult, selectTooth, patientID }) => {
+const Denture = ({ selectTooth, patientID }) => {
   const [teeth, setTeeth] = useState([]);
+  const [adult, setAdult] = useState(true);
 
   const growTooth = (tooth) => {
-    tooth.children[0].style.transform = "scale(1.1)"
-    tooth.children[0].style.border = "thin solid blue"
+    tooth.children[0].style.transform = "scale(1.1)";
+    tooth.children[0].style.border = "thin solid blue";
   }
   
   const shrinkTooth = (tooth) => {
-    tooth.children[0].style.transform = "scale(1)"
-    tooth.children[0].style.border = "none"
+    tooth.children[0].style.transform = "scale(1)";
+    tooth.children[0].style.border = "none";
   }
 
   useEffect(async () => {
-    const getDenture = await (await axios.post('/api/teeth/denture', { isAdult: isAdult, patientID: patientID })).data;
+    const getDenture = await (await axios.post('/api/teeth/denture', { patientID: patientID })).data;
+    const isPatientAdult = await (await axios.post('/api/patients/isPatientAdult', { patientID: patientID })).data;
 
     setTeeth(getDenture);
+    setAdult(isPatientAdult);
   }, [patientID])
 
 
   return (
     <Flex direction="column" justify="center" align="center">
       {
-        isAdult ?
+        adult ?
           <Grid 
             templateColumns="repeat(8, 5fr) 1fr repeat(8, 5fr)"
             templateRows="repeat(2, 1fr)"

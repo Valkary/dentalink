@@ -27,11 +27,23 @@ const build_object = (positions, idx, diente_obj, colores) => {
   return diente_obj;
 }
 
-export default function getDenture(req, res) {
+const getPatientAge = async (patient_id) => {
   return new Promise((resolve, reject) => {
+    conn.query(`SELECT age FROM patients WHERE id = ${patient_id}`, (err, result) => {
+      if (err) throw err;
+      return err ? reject(err) : resolve(result[0].age);
+    });
+  });
+}
+
+export default function getDenture(req, res) {
+  return new Promise(async (resolve, reject) => {
     if(req.method === "POST"){
-      const { isAdult, patientID } = req.body;
+      const { patientID } = req.body;
       const positions = ["1,2,3,4", "5,6,7,8"];
+
+      const patient_age = await getPatientAge(patientID);
+      const isAdult = patient_age >= 18;
 
       conn.query(`SELECT JSON_ARRAYAGG(teeth_types.name) as names, JSON_ARRAYAGG(teeth.id) as dientes, JSON_ARRAYAGG(registros.area) as areas, JSON_ARRAYAGG(tooth_areas.name) as positions, JSON_ARRAYAGG(tooth_status.color) as colores FROM teeth LEFT JOIN(SELECT registros.id_patient, registros.id_tooth, registros.id_procedure, registros.status, registros.area FROM (SELECT th.*, RANK() OVER (PARTITION BY th.id_tooth, th.area ORDER BY date DESC) as date_rank FROM tooth_history th INNER JOIN teeth t ON t.id = th.id_tooth WHERE th.id_patient = ${patientID}) as registros WHERE date_rank = 1) as registros ON teeth.id = registros.id_tooth LEFT JOIN tooth_areas ON tooth_areas.id = registros.area LEFT JOIN tooth_status ON tooth_status.id = registros.status LEFT JOIN teeth_types ON teeth.type = teeth_types.id WHERE teeth.position IN(${ isAdult ? positions[0] : positions[1] });`, (err, result) => {
         if (err) throw err;

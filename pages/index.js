@@ -8,7 +8,7 @@ import PatientHistory from '../components/organisms/PatientHistory';
 import CreatePatient from "../components/organisms/CreatePatient";
 import Menu from "../components/organisms/menu";
 import PatientTable from "../components/molecules/PatientTable";
-import Calendar from "../components/organisms/Calendar"
+import Calendar from "../components/organisms/Calendar";
 
 const menu_obj = {
   patients: {
@@ -21,6 +21,10 @@ const menu_obj = {
       route_2: {
         title: "Lista de Pacientes",
         action: "patient_list"
+      },
+      route_3: {
+        title: "Historial de Pacientes",
+        action: "patient_history"
       }
     }
   },
@@ -82,6 +86,8 @@ export default function Home() {
         return <PatientTable></PatientTable>;
       case "view_calendar":
         return <Calendar></Calendar>;
+      case "patient_history":
+        return <PatientHistory userCreds={credentials}></PatientHistory>;
     }
   }
 
@@ -101,7 +107,7 @@ export default function Home() {
                   menu={menu_obj}             
                 ></Menu>
               </GridItem>
-              <GridItem>
+              <GridItem maxHeight="100vh" maxWidth="95vw" overflowY="scroll">
                 {
                   switchRender(selectedPage)
                 }

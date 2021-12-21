@@ -1,14 +1,18 @@
-import { Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import { Button, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { GrClose } from 'react-icons/gr';
 import { useState } from "react";
+import { CloseIcon } from "@chakra-ui/icons";
 import MenuSection from "../molecules/MenuSection";
 
 const Menu = ({ pageSelector, menu }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const menu_entries = Object.entries(menu);
 
-  if(!openMenu) return <GiHamburgerMenu onClick={() => setOpenMenu(!openMenu)}></GiHamburgerMenu>;
+  if(!openMenu) return (
+    <Button colorScheme="ghost" color="black" onClick={() => setOpenMenu(!openMenu)}>
+      <GiHamburgerMenu></GiHamburgerMenu>
+    </Button>
+  )
 
   return (
     <Grid
@@ -51,9 +55,9 @@ const Menu = ({ pageSelector, menu }) => {
           height="100%"
           width="100%"
         >
-          <GrClose 
-            onClick={() => setOpenMenu(!openMenu)}
-          ></GrClose>
+          <Button colorScheme="ghost" color="#fff" onClick={() => setOpenMenu(!openMenu)}>
+            <CloseIcon></CloseIcon>
+          </Button>
         </Flex>
       </GridItem>
       <GridItem
