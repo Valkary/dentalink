@@ -5,6 +5,7 @@ import { useState } from "react";
 import DentureColors from "../atoms/DentureColors";
 import PatientSelector from "../molecules/PatientSelector";
 import axios from "axios";
+import PatientExpedient from "../molecules/PatientExpedient";
 
 const PatientHistory = ({ userCreds }) => {
   const [patient, setPatient] = useState({});
@@ -18,7 +19,6 @@ const PatientHistory = ({ userCreds }) => {
 
   const selectPatientFunc = async (patient_id) => {
     const patient_data = await (await axios.post('/api/patients/getPatientData', { patientID: patient_id })).data;
-    console.log(patient_data);
 
     setPatient(patient_data);
     setTooth({
@@ -39,6 +39,7 @@ const PatientHistory = ({ userCreds }) => {
   return (
     <Flex direction="column">
       <PatientSelector selectPatient={selectPatientFunc}></PatientSelector>
+      <PatientExpedient patient_data={patient}></PatientExpedient>
       <Flex className="patientHistory" direction="column">
         <Flex className="information" direction="column">
           <Flex className="patientCredentials" direction="row">

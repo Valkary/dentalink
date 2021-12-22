@@ -18,7 +18,7 @@ const PatientSelector = ({ selectPatient }) => {
       variant="flushed"
       onChange={e => selectPatient(e.currentTarget.value)}
     >
-      <option>Seleccionar</option>
+      <option value="0">Seleccionar</option>
       {
         patients.map(patient => {
           return (
