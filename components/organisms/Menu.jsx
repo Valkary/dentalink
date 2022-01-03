@@ -19,7 +19,7 @@ const menu_config = {
 }
 
 
-const Menu = ({}) => {
+const Menu = ({ setSelectedPage }) => {
   const [menuFocus, setMenuFocus] = useState(false);
 
   return (
@@ -43,7 +43,10 @@ const Menu = ({}) => {
         src={Logo}
         alt="imagen no encontrada juasjuas"
       ></Image>
-      <Button colorScheme="white">
+      <Button 
+        colorScheme="white"
+        onClick={() => setSelectedPage("users")}
+      >
         <FaUserTie></FaUserTie>
         {
           menuFocus ? 
@@ -51,7 +54,10 @@ const Menu = ({}) => {
             <></>
         }
       </Button>
-      <Button colorScheme="white">
+      <Button 
+        colorScheme="white"
+        onClick={() => setSelectedPage("patients")}
+      >
         <FaUserFriends></FaUserFriends>
         {
           menuFocus ? 
@@ -59,7 +65,10 @@ const Menu = ({}) => {
             <></>
         }
       </Button>
-      <Button colorScheme="white">
+      <Button 
+        colorScheme="white"
+        onClick={() => setSelectedPage("calendar")}
+      >
         <BsFillCalendarWeekFill></BsFillCalendarWeekFill>
         {
           menuFocus ? 

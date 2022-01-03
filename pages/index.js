@@ -2,13 +2,12 @@ import { ChakraProvider, Grid, GridItem } from "@chakra-ui/react";
 import { AuthContextProvider } from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
 
-// Pages
+// <Pages>
 import LoginForm from '../components/organisms/LoginForm';
 import PatientHistory from '../components/organisms/PatientHistory';
-import CreatePatient from "../components/organisms/CreatePatient";
 import Menu from "../components/organisms/menu";
-import PatientTable from "../components/molecules/PatientTable";
 import Calendar from "../components/organisms/Calendar";
+// </Pages>
 
 export default function Home() {
   const [selectedPage, setSelectedPage] = useState("");
@@ -34,14 +33,12 @@ export default function Home() {
     switch(selectedPage) {
       case "":
         return <PatientHistory userCreds={credentials}></PatientHistory>;
-      case "create_patient":
-        return <CreatePatient></CreatePatient>;
-      case "patient_list":
-        return <PatientTable></PatientTable>;
-      case "view_calendar":
-        return <Calendar></Calendar>;
-      case "patient_history":
+      case "patients":
         return <PatientHistory userCreds={credentials}></PatientHistory>;
+      case "calendar":
+        return <Calendar></Calendar>;
+      case "users":
+        return <></>;
     }
   }
 
@@ -56,7 +53,9 @@ export default function Home() {
               width="100vw"
             >
               <GridItem>
-                <Menu></Menu>
+                <Menu
+                  setSelectedPage={setSelectedPage}
+                ></Menu>
               </GridItem>
               <GridItem maxHeight="100vh" maxWidth="95vw" overflowY="scroll">
                 {
