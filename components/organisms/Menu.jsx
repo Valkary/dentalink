@@ -1,76 +1,73 @@
-import { Button, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
-import { GiHamburgerMenu } from 'react-icons/gi';
+import { Button, Flex, Text } from "@chakra-ui/react";
+import { FaUserTie, FaUserFriends } from "react-icons/fa";
+import { BsFillCalendarWeekFill } from "react-icons/bs";
 import { useState } from "react";
-import { CloseIcon } from "@chakra-ui/icons";
-import MenuSection from "../molecules/MenuSection";
+import Image from 'next/image';
+import Logo from "../../public/logo.png";
 
-const Menu = ({ pageSelector, menu }) => {
-  const [openMenu, setOpenMenu] = useState(false);
-  const menu_entries = Object.entries(menu);
+const menu_config = {
+  focused: {
+    width: "8%",
+    icons_margin: "0.25em",
+    icons_align: "flex-start",
+  },
+  unfocused: {
+    width: "4%",
+    icons_margin: "none",
+    icons_align: "center",
+  }
+}
 
-  if(!openMenu) return (
-    <Button colorScheme="ghost" color="black" onClick={() => setOpenMenu(!openMenu)}>
-      <GiHamburgerMenu></GiHamburgerMenu>
-    </Button>
-  )
+
+const Menu = ({}) => {
+  const [menuFocus, setMenuFocus] = useState(false);
 
   return (
-    <Grid
-      templateColumns="9fr 1fr"
-      templateRows="5% 95%"
-      backgroundColor="blue.500"
-      className="menu"
+    <Flex
+      direction="column"
+      justify="flex-start"
+      width="100%"
       height="100%"
-      width="25%"
+      background="#001b26"
+      zIndex={1000}
       position="absolute"
-      zIndex="1000"
-      rowGap={2}
-      overflow="hidden"
-    >
-      <GridItem
-       colStart={1}
-       colEnd={2}
-       rowStart={1}
-       rowEnd={2}
-       height="100%"
-       width="100%"
-       borderBottom="thin solid white"
-       pl="5%"
-      >
-        <Text fontSize='4xl' color='white'><strong>DentalInk</strong></Text>
-      </GridItem>
-      <GridItem
-       colStart={2}
-       colEnd={3}
-       rowStart={1}
-       rowEnd={2}
-       height="100%"
-       width="100%"
-       borderBottom="thin solid white"
-      >
-        <Flex 
-          direction="column"
-          justify="center"
-          align="center"
-          height="100%"
-          width="100%"
-        >
-          <Button colorScheme="ghost" color="#fff" onClick={() => setOpenMenu(!openMenu)}>
-            <CloseIcon></CloseIcon>
-          </Button>
-        </Flex>
-      </GridItem>
-      <GridItem
-        colStart={1}
-        colEnd={3}
-        rowStart={2}
-        rowEnd={3}
-        pl="5%"
-      >        
-        <MenuSection children={menu_entries} pageSelector={pageSelector}></MenuSection>
-      </GridItem>
-    </Grid>
+      
+      align={menuFocus ? menu_config.focused.icons_align : menu_config.unfocused.icons_align}
+      width={menuFocus ? menu_config.focused.width : menu_config.unfocused.width}
 
+      onMouseEnter={() => {setMenuFocus(true)}}
+      onMouseLeave={() => {setMenuFocus(false)}}
+      pl={menuFocus ? menu_config.focused.icons_margin : menu_config.unfocused.icons_margin}
+    >
+      <Image 
+        src={Logo}
+        alt="imagen no encontrada juasjuas"
+      ></Image>
+      <Button colorScheme="white">
+        <FaUserTie></FaUserTie>
+        {
+          menuFocus ? 
+            <Text pl="1em">Usuarios</Text> :
+            <></>
+        }
+      </Button>
+      <Button colorScheme="white">
+        <FaUserFriends></FaUserFriends>
+        {
+          menuFocus ? 
+            <Text pl="1em">Pacientes</Text> :
+            <></>
+        }
+      </Button>
+      <Button colorScheme="white">
+        <BsFillCalendarWeekFill></BsFillCalendarWeekFill>
+        {
+          menuFocus ? 
+            <Text pl="1em">Calendario</Text> :
+            <></>
+        }
+      </Button>
+    </Flex>
   )
 }
 

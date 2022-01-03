@@ -10,52 +10,6 @@ import Menu from "../components/organisms/menu";
 import PatientTable from "../components/molecules/PatientTable";
 import Calendar from "../components/organisms/Calendar";
 
-const menu_obj = {
-  patients: {
-    title: "Pacientes",
-    routes: {
-      route_1: {
-        title: "Crear Paciente",
-        action: "create_patient"
-      },
-      route_2: {
-        title: "Lista de Pacientes",
-        action: "patient_list"
-      },
-      route_3: {
-        title: "Historial de Pacientes",
-        action: "patient_history"
-      }
-    }
-  },
-  users: {
-    title: "Usuarios",
-    routes: {
-      route_1: {
-        title: "Crear Usuario",
-        action: "create_user"
-      },
-      route_2: {
-        title: "Lista de Usuarios",
-        action: "user_list"
-      }
-    }
-  },
-  calendar: {
-    title: "Calendario",
-    routes: {
-      route_1: {
-        title: "Ver Calendario",
-        action: "view_calendar"
-      },
-      route_2: {
-        title: "Agendar Cita",
-        action: "create_appointment"
-      }
-    }
-  }
-}
-
 export default function Home() {
   const [selectedPage, setSelectedPage] = useState("");
   const [credentials, setCredentials] = useState({loggedIn: false});
@@ -97,15 +51,12 @@ export default function Home() {
         children={ 
           credentials.loggedIn ?
             <Grid
-              templateColumns="1fr 30fr"
+              templateColumns="1fr 25fr"
               height="100vh"
               width="100vw"
             >
               <GridItem>
-                <Menu 
-                  pageSelector={setSelectedPage} 
-                  menu={menu_obj}             
-                ></Menu>
+                <Menu></Menu>
               </GridItem>
               <GridItem maxHeight="100vh" maxWidth="95vw" overflowY="scroll">
                 {

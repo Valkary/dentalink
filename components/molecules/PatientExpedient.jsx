@@ -159,7 +159,7 @@ const PatientExpedient = ({ patient_data }) => {
                                   <Td>{question_object.illnesses_names.length > 0 ? "Si" : "No"}</Td>
                                   <Td>{question_object.illnesses_names.join(", ")}</Td>
                                 </Tr>
-                              )
+                              );
                             case 1:
                               return (
                                 <Tr>
@@ -167,7 +167,7 @@ const PatientExpedient = ({ patient_data }) => {
                                   <Td>{question_object.under_treatment ? "Si" : "No"}</Td>
                                   <Td></Td>
                                 </Tr>
-                              )
+                              );
                             case 2:
                               return (
                                 <Tr>
@@ -175,7 +175,7 @@ const PatientExpedient = ({ patient_data }) => {
                                   <Td>{question_object.severe_problems ? "Si" : "No"}</Td>
                                   <Td>{question_object.problems}</Td>
                                 </Tr>
-                              )
+                              );
                             case 3:
                               return (
                                 <Tr>
@@ -183,7 +183,7 @@ const PatientExpedient = ({ patient_data }) => {
                                   <Td>{question_object.taking_drugs ? "Si" : "No"}</Td>
                                   <Td>{question_object.drug}</Td>
                                 </Tr>
-                              )
+                              );
                             case 4:
                               return (
                                 <Tr>
@@ -191,8 +191,8 @@ const PatientExpedient = ({ patient_data }) => {
                                   <Td></Td>
                                   <Td>{question_object.allergy}</Td>
                                 </Tr>
-                              )
-                            case 5:
+                              );
+                            case 5: 
                               return (
                                 <Tr>
                                   <Td>{title}</Td>
@@ -216,7 +216,7 @@ const PatientExpedient = ({ patient_data }) => {
                                     </Table>
                                   </Td>
                                 </Tr>
-                              )
+                              );
                           }
                         })
                       }
