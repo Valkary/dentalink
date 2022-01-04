@@ -146,8 +146,8 @@ const Patients = ({ userCreds }) => {
               <Button leftIcon={showPatientDenture ?  <IoIosArrowUp/> : <IoIosArrowDown/>} onClick={() => setShowPatientDenture(!showPatientDenture)}>
                 {
                   showPatientDenture ? 
-                  `Mostrar dentadura del paciente: ${patient.names} ${patient.last_names}` :
-                  `No mostrar dentadura del paciente: ${patient.names} ${patient.last_names}`
+                    `No mostrar dentadura del paciente: ${patient.names} ${patient.last_names}` :
+                    `Mostrar dentadura del paciente: ${patient.names} ${patient.last_names}`
                 }
               </Button>
             </Flex>

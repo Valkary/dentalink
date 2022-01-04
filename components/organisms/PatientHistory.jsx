@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/layout";
-import Denture from "../molecules/denture";
+import Denture from "../molecules/Denture";
 import ToothHistory from '../molecules/ToothHistory';
 import { useState } from "react";
 import DentureColors from "../atoms/DentureColors";
