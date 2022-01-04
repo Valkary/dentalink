@@ -4,80 +4,130 @@ import { BsFillCalendarWeekFill } from "react-icons/bs";
 import { useState } from "react";
 import Image from 'next/image';
 import Logo from "../../public/logo.png";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineClose } from "react-icons/ai";
 
 const menu_config = {
-  focused: {
+  open: {
     width: "8%",
-    icons_margin: "0.25em",
-    icons_align: "flex-start",
+    icon_padding: "0.25em",
+    icon_align: "flex-start",
   },
-  unfocused: {
+  closed: {
     width: "4%",
-    icons_margin: "none",
-    icons_align: "center",
+    icon_padding: "none",
+    icon_align: "center",
   }
 }
 
 
 const Menu = ({ setSelectedPage }) => {
-  const [menuFocus, setMenuFocus] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
 
-  return (
-    <Flex
-      direction="column"
-      justify="flex-start"
-      width="100%"
-      height="100%"
-      background="#001b26"
-      zIndex={1000}
-      position="absolute"
-      
-      align={menuFocus ? menu_config.focused.icons_align : menu_config.unfocused.icons_align}
-      width={menuFocus ? menu_config.focused.width : menu_config.unfocused.width}
+  if(openMenu) {
+    const { width, icon_padding, icon_align } = menu_config.open
 
-      onMouseEnter={() => {setMenuFocus(true)}}
-      onMouseLeave={() => {setMenuFocus(false)}}
-      pl={menuFocus ? menu_config.focused.icons_margin : menu_config.unfocused.icons_margin}
-    >
-      <Image 
-        src={Logo}
-        alt="imagen no encontrada juasjuas"
-      ></Image>
-      <Button 
-        colorScheme="white"
-        onClick={() => setSelectedPage("users")}
+    return (
+      <Flex
+        direction="column"
+        justify="flex-start"
+        width="100%"
+        height="100%"
+        background="#001b26"
+        zIndex={1000}
+        position="absolute"
+        
+        align={icon_align}
+        width={width}
+
+        pl={icon_padding}
       >
-        <FaUserTie></FaUserTie>
-        {
-          menuFocus ? 
-            <Text pl="1em">Usuarios</Text> :
-            <></>
-        }
-      </Button>
-      <Button 
-        colorScheme="white"
-        onClick={() => setSelectedPage("patients")}
+        <Flex direction="row" justify="flex-end" align="flex-end" width="100%">
+          <Button 
+            colorScheme="white"
+            onClick={() => setOpenMenu(false)}
+            size="lg"
+          >
+            <AiOutlineClose></AiOutlineClose>
+          </Button>
+        </Flex>
+        <Image 
+          src={Logo}
+          alt="imagen no encontrada juasjuas"
+        ></Image>
+        <Button 
+          colorScheme="white"
+          onClick={() => setSelectedPage("users")}
+        >
+          <FaUserTie></FaUserTie>
+          <Text pl="1em">Usuarios</Text>
+        </Button>
+        <Button 
+          colorScheme="white"
+          onClick={() => setSelectedPage("patients")}
+        >
+          <FaUserFriends></FaUserFriends>
+          <Text pl="1em">Pacientes</Text>
+        </Button>
+        <Button 
+          colorScheme="white"
+          onClick={() => setSelectedPage("calendar")}
+        >
+          <BsFillCalendarWeekFill></BsFillCalendarWeekFill>
+          <Text pl="1em">Calendario</Text>
+        </Button>
+      </Flex>
+    )
+  } else {
+    const { width, icon_padding, icon_align } = menu_config.closed
+
+    return (
+      <Flex
+        direction="column"
+        justify="flex-start"
+        width="100%"
+        height="100%"
+        background="#001b26"
+        zIndex={1000}
+        position="absolute"
+        
+        align={icon_align}
+        width={width}
+
+        pl={icon_padding}
       >
-        <FaUserFriends></FaUserFriends>
-        {
-          menuFocus ? 
-            <Text pl="1em">Pacientes</Text> :
-            <></>
-        }
-      </Button>
-      <Button 
-        colorScheme="white"
-        onClick={() => setSelectedPage("calendar")}
-      >
-        <BsFillCalendarWeekFill></BsFillCalendarWeekFill>
-        {
-          menuFocus ? 
-            <Text pl="1em">Calendario</Text> :
-            <></>
-        }
-      </Button>
-    </Flex>
-  )
+        <Button 
+          colorScheme="white"
+          onClick={() => setOpenMenu(true)}
+          size="lg"
+        >
+          <GiHamburgerMenu></GiHamburgerMenu>
+        </Button>
+        <Image 
+          src={Logo}
+          alt="imagen no encontrada juasjuas"
+        ></Image>
+        <Button 
+          colorScheme="white"
+          onClick={() => setSelectedPage("users")}
+        >
+          <FaUserTie></FaUserTie>
+        </Button>
+        <Button 
+          colorScheme="white"
+          onClick={() => setSelectedPage("patients")}
+        >
+          <FaUserFriends></FaUserFriends>
+        </Button>
+        <Button 
+          colorScheme="white"
+          onClick={() => setSelectedPage("calendar")}
+        >
+          <BsFillCalendarWeekFill></BsFillCalendarWeekFill>
+        </Button>
+      </Flex>
+    )
+  }
 }
 
 export default Menu;

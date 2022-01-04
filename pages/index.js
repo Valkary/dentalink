@@ -7,6 +7,7 @@ import LoginForm from '../components/organisms/LoginForm';
 import PatientHistory from '../components/organisms/PatientHistory';
 import Menu from "../components/organisms/menu";
 import Calendar from "../components/organisms/Calendar";
+import Patients from "../components/ecosystems/Patients";
 // </Pages>
 
 export default function Home() {
@@ -32,7 +33,7 @@ export default function Home() {
   const switchRender = (selectedPage) => {
     switch(selectedPage) {
       case "":
-        return <PatientHistory userCreds={credentials}></PatientHistory>;
+        return <Patients userCreds={credentials}></Patients>;
       case "patients":
         return <PatientHistory userCreds={credentials}></PatientHistory>;
       case "calendar":

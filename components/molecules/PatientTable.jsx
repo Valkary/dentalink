@@ -13,7 +13,7 @@ import axios from 'axios';
 
 import AppointmentModal from './AppointmentModal';
 
-const PatientTable = ({}) => {
+const PatientTable = ({ selectPatient }) => {
   const [patients, setPatients] = useState([]);
   const [procedures, setProcedures] = useState([]);
 
@@ -34,8 +34,8 @@ const PatientTable = ({}) => {
           <Th>Apellidos</Th>
           <Th>Email</Th>
           <Th>No. Teléfono</Th>
-          <Th>Edad</Th>
-          <Th>Información</Th>
+          <Th>Edad (años)</Th>
+          <Th>Seleccionar</Th>
           <Th>Agendar Cita</Th>
         </Tr>
       </Thead>
@@ -52,7 +52,7 @@ const PatientTable = ({}) => {
                 <Td isNumeric>{phone}</Td>
                 <Td isNumeric>{age}</Td>
                 <Td>
-                  <Button colorScheme="blue">Información</Button>
+                  <Button colorScheme="blue" onClick={() => selectPatient(id)}>Seleccionar</Button>
                 </Td>
                 <Td>
                   <AppointmentModal patient={patient} procedures={procedures}></AppointmentModal>
