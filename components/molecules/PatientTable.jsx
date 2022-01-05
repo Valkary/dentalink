@@ -7,24 +7,11 @@ import {
   Td,
   TableCaption,
   Button,
-} from '@chakra-ui/react'
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+} from '@chakra-ui/react';
 
 import AppointmentModal from './AppointmentModal';
 
-const PatientTable = ({ selectPatient }) => {
-  const [patients, setPatients] = useState([]);
-  const [procedures, setProcedures] = useState([]);
-
-  useEffect(async () => {
-    const getAllPatients = await (await axios.post('/api/patients/getAllPatients')).data;
-    const getAllProcedures = await (await axios.post('/api/teeth/getProcedures')).data;
-
-    setProcedures(getAllProcedures);
-    setPatients(getAllPatients);
-  }, []);
-
+const PatientTable = ({ selectPatient, patients, procedures }) => {
   return (
     <Table variant="striped" colorScheme="blue">
       <TableCaption>Listado de Pacientes</TableCaption>

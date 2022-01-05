@@ -59,7 +59,7 @@ const AppointmentModal = ({patient, procedures}) => {
 
   return (
     <>
-      <Button colorScheme="blue" onClick={onOpen}>Agendar</Button>
+      <Button colorScheme="blue" onClick={onOpen} width="100%">Agendar</Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

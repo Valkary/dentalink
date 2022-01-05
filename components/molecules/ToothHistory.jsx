@@ -12,7 +12,7 @@ const ToothHistory = ({ toothName, toothID, patientID }) => {
   }, [toothID, patientID]);
 
   return (
-    <Flex direction="column" justify="center" align="center" height="100%" width="60%">
+    <Flex direction="column" height="100%" width="60%">
       <Flex direction="row" width="100%">
         <Box
           pl="1em"

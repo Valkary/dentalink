@@ -35,7 +35,7 @@ export default function Home() {
       case "":
         return <Patients userCreds={credentials}></Patients>;
       case "patients":
-        return <PatientHistory userCreds={credentials}></PatientHistory>;
+        return <Patients userCreds={credentials}></Patients>;
       case "calendar":
         return <Calendar></Calendar>;
       case "users":
