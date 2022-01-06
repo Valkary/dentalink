@@ -12,8 +12,10 @@ import axios from "axios";
   import Denture from "../molecules/Denture";
   import PatientExpedient from "../molecules/PatientExpedient";
   import AppointmentModal from "../molecules/AppointmentModal";
-import PatientAppointments from "../atoms/PatientAppointments";
-import ToothHistoryTable from "../molecules/ToothHistoryTable";
+  import PatientAppointments from "../atoms/PatientAppointments";
+  import ToothHistoryTable from "../molecules/ToothHistoryTable";
+  import CreatePatientModal from "../organisms/CreatePatientModal";
+import AddHistoryModal from "../molecules/AddHistoryModal";
 // </CustomComponets>
 
 /*
@@ -66,8 +68,10 @@ function Patients({ userCreds }) {
   return (
     <Grid
       templateColumns="75% 25%"
-      templateRows="[titulo] 5vh [lista-pacientes] auto [informacion-paciente] auto [dentadura-paciente] auto"
+      templateRows="[auto] 5vh [lista-pacientes] auto [informacion-paciente] auto [dentadura-paciente] auto"
       gap={2}
+      pl="1rem"
+      pr="1rem"
     >
       <GridItem
         colStart={1}
@@ -75,8 +79,10 @@ function Patients({ userCreds }) {
         rowStart={1}
         rowEnd={2}
       >
-        <Flex direction="row" justify="center" align="center">
-          <Text fontSize="3xl">Pacientes</Text>
+        <Flex direction="row" justify="flex-start" align="center" pt="0.5rem">
+          <div className="ten">
+            <h1>Pacientes</h1>
+          </div>
         </Flex>
       </GridItem>
       <GridItem
@@ -96,13 +102,12 @@ function Patients({ userCreds }) {
               "Cerrar tabla de pacientes" :
               "Abrir tabla de pacientes"}
           </Button>
+          <CreatePatientModal></CreatePatientModal>
         </Flex>
 
         {showPatientsTable ?
           <Flex
             direction="column"
-            maxW="100%"
-            maxH="100%"
           >
             <PatientTable selectPatient={selectPatientFunc} patients={patients} procedures={procedures}></PatientTable>
           </Flex>
@@ -162,6 +167,7 @@ function Patients({ userCreds }) {
                 pr="2rem"
                 templateColumns="[denture] 4fr [appointments] 1fr"
                 columnGap={2}
+                pt="3rem"
               >
                 <GridItem
                   colStart={1}
@@ -181,7 +187,10 @@ function Patients({ userCreds }) {
                   colSpan={1}
                 >
                   <VStack spacing={2}>
-                    <AppointmentModal patient={patient} procedures={procedures}></AppointmentModal>
+                    <Flex direction="row" justify="center" align="center" width="100%">
+                      <AddHistoryModal patient_id={patient.id} tooth_id={tooth.tooth_id}></AddHistoryModal>
+                      <AppointmentModal patient={patient} procedures={procedures}></AppointmentModal>
+                    </Flex>
                     <PatientAppointments patient_id={patient.id}></PatientAppointments>
                   </VStack>
                 </GridItem>

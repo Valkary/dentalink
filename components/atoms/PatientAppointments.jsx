@@ -22,7 +22,7 @@ const PatientAppointments = ({patient_id}) => {
       </Thead>
       <Tbody>
         {
-          patientAppointments.map(appointment => {
+          patientAppointments.map((appointment, idx) => {
             if(appointment) {
               const { title, start, end } = appointment;
               const procedure = title.split(" - ")[1];
@@ -31,7 +31,7 @@ const PatientAppointments = ({patient_id}) => {
               const time_end = end.split(" ")[1];
   
               return (
-                <Tr>
+                <Tr key={`appointment_${idx}`}>
                   <Td>{procedure}</Td>
                   <Td>{date}</Td>
                   <Td>{time_start}</Td>

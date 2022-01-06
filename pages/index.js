@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 // <Pages>
 import LoginForm from '../components/organisms/LoginForm';
-import PatientHistory from '../components/organisms/PatientHistory';
 import Menu from "../components/organisms/menu";
 import Calendar from "../components/organisms/Calendar";
 import Patients from "../components/ecosystems/Patients";

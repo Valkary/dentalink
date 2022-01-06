@@ -12,12 +12,13 @@ import {
   Input,
   Stack,
   InputLeftElement,
-  Badge
+  Badge,
+  useDisclosure,
+  Button
 } from '@chakra-ui/react'
-import { useDisclosure } from '@chakra-ui/react';
-import { Button } from '@chakra-ui/react';
 import { useReducer, useState } from 'react';
 import axios from 'axios';
+import { FaRegCalendarPlus } from "react-icons/fa";
 
 const appointmentInitialState = {
   procedure: 1,
@@ -59,7 +60,7 @@ const AppointmentModal = ({patient, procedures}) => {
 
   return (
     <>
-      <Button colorScheme="blue" onClick={onOpen} width="100%">Agendar</Button>
+      <Button leftIcon={<FaRegCalendarPlus/>} colorScheme="blue" onClick={onOpen} width="100%">Agendar Cita</Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
