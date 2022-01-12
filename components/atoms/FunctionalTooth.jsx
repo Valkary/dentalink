@@ -1,5 +1,4 @@
-const FunctionalTooth = ({ colors, width, height, hovering, unHovering, clickToothArea }) => {
-
+const FunctionalTooth = ({ colors, width, height, clickToothArea }) => {
   return (
     <svg
       width={width}
@@ -23,8 +22,6 @@ const FunctionalTooth = ({ colors, width, height, hovering, unHovering, clickToo
             clipRule="evenodd"
             d="M175 175H75L0 250H250L175 175Z"
             fill={colors.bottom}
-            onMouseEnter={(e) => hovering(e)}
-            onMouseLeave={(e) => unHovering(e)}
             onClick={() => clickToothArea(5)}
           />
           <path
@@ -46,8 +43,6 @@ const FunctionalTooth = ({ colors, width, height, hovering, unHovering, clickToo
             clipRule="evenodd"
             d="M175 75H75L0 0H250L175 75Z"
             fill={colors.top}
-            onMouseEnter={(e) => hovering(e)}
-            onMouseLeave={(e) => unHovering(e)}
             onClick={() => clickToothArea(1)}
           />
           <path
@@ -69,8 +64,6 @@ const FunctionalTooth = ({ colors, width, height, hovering, unHovering, clickToo
             clipRule="evenodd"
             d="M175 75V175L250 250V0L175 75Z"
             fill={colors.right}
-            onMouseEnter={(e) => hovering(e)}
-            onMouseLeave={(e) => unHovering(e)}
             onClick={() => clickToothArea(4)}
           />
           <path
@@ -92,8 +85,6 @@ const FunctionalTooth = ({ colors, width, height, hovering, unHovering, clickToo
             clipRule="evenodd"
             d="M75 75L75 175L0 250L0 0L75 75Z"
             fill={colors.left}
-            onMouseEnter={(e) => hovering(e)}
-            onMouseLeave={(e) => unHovering(e)}
             onClick={() => clickToothArea(2)}
           />
           <path
@@ -109,8 +100,6 @@ const FunctionalTooth = ({ colors, width, height, hovering, unHovering, clickToo
           width="100"
           height="100"
           fill={colors.center}
-          onMouseEnter={(e) => hovering(e)}
-          onMouseLeave={(e) => unHovering(e)}
           onClick={() => clickToothArea(3)}
         />
       </g>
