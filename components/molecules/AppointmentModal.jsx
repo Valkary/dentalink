@@ -48,13 +48,12 @@ const AppointmentModal = ({patient, procedures}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useReducer(appointmentReducer,appointmentInitialState);
   const [sent, setSent] = useState(false);
-  const [sentStatus, setSentStatus] = useState({ error: false, message: "Sin agendar" })
+  const [sentStatus, setSentStatus] = useState({ error: false, message: "Sin agendar" });
 
   const makeAppointment = async (state) => {
     const appointment_request = await (await axios.post('/api/appointments/makeAppointment', { ...state, patient_id: patient.id })).data;
 
     setSent(true);
-
     appointment_request.affectedRows === 1 ? setSentStatus({ error: false, message: "Agendada" }) : setSentStatus({ error: true, message: "No agendada" }) 
   }
 

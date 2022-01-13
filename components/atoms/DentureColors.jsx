@@ -1,9 +1,8 @@
 import { Flex, Box, Text } from "@chakra-ui/layout"
 
 const DentureColors = ({}) => {
-
   return (
-    <Flex className="colorIdentification" justify="space-around" align="center" height="100%">
+    <Flex className="colorIdentification" justify="space-around" align="center" height="100%" width="100%">
       <Flex direction="row" justify="center" align="center" height="100%">
         <Box backgroundColor="#4A5568" height="2em" width="2em" borderRadius="0.2em" mr="1em"></Box>
         <Text height="100%">Realizado anteriormente</Text>

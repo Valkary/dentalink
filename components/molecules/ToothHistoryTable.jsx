@@ -12,13 +12,13 @@ import moment from 'moment';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ToothHistoryTable = ({ toothName, toothID, patientID }) => {
+const ToothHistoryTable = ({ toothName, toothID, patientID, updatedID }) => {
   const [toothHistory, setToothHistory] = useState([{}]);
   
   useEffect(async () => {
     const getToothHistory = await (await axios.post("/api/teeth/toothHistory", { tooth_id: toothID, patient_id: patientID })).data;
     setToothHistory(getToothHistory);
-  }, [toothID, patientID]);
+  }, [toothID, patientID, updatedID]);
 
   return (
     <Table variant='striped' colorScheme="blue" size="lg">

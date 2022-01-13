@@ -1,6 +1,5 @@
-import { Button, Flex, Grid, GridItem, VStack } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
-import { IoIosArrowDown, IoIosArrowUp, IoIosArrowForward } from "react-icons/io";
+import { Button, Flex, Grid, GridItem, HStack, VStack } from "@chakra-ui/react";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,14 +14,8 @@ import axios from "axios";
   import PatientAppointments from "../atoms/PatientAppointments";
   import ToothHistoryTable from "../molecules/ToothHistoryTable";
   import CreatePatientModal from "../organisms/CreatePatientModal";
-import AddHistoryModal from "../molecules/AddHistoryModal";
+  import AddHistoryModal from "../molecules/AddHistoryModal";
 // </CustomComponets>
-
-/*
-  TODO:
-    [*] hacer la peticion de lista de pacientes en este componente y no la tabla de pacientes
-    [*] hacer que el componente del selector de pacientes y el de tabla de pacientes se comuniquen entre si y compartan estado
-*/
 
 function Patients({ userCreds }) {
   const [ showPatientsTable, setShowPatientsTable ] = useState(true);
@@ -35,6 +28,7 @@ function Patients({ userCreds }) {
     tooth_id: null,
     tooth_name: null
   });
+  const [ updatedId, setUpdatedId ] = useState(0);
 
   const { user_name, security_lvl, first_name, last_name } = userCreds;
 
@@ -72,6 +66,9 @@ function Patients({ userCreds }) {
       gap={2}
       pl="1rem"
       pr="1rem"
+      minHeight="100vh"
+      height="100%"
+      width="95vw"
     >
       <GridItem
         colStart={1}
@@ -159,9 +156,11 @@ function Patients({ userCreds }) {
           </Flex>
 
           {showPatientDenture ?
-            <Flex direction="column" pt="1.5rem">
-              <DentureColors></DentureColors>
-              <Denture selectTooth={selectToothFunc} patientID={patient.id}></Denture>
+            <Flex direction="column" pt="1.5rem" background="gray.50" minHeight="80vh" height="100%">
+              <VStack spacing={4} width="100%">
+                <DentureColors></DentureColors>
+                <Denture selectTooth={selectToothFunc} patientID={patient.id} updatedID={updatedId}></Denture>
+              </VStack>
               <Grid
                 pl="2rem"
                 pr="2rem"
@@ -178,6 +177,7 @@ function Patients({ userCreds }) {
                       toothName={tooth.tooth_name}
                       toothID={tooth.tooth_id}
                       patientID={patient.id}
+                      updatedID={updatedId}
                     ></ToothHistoryTable>
                   </Flex>
                 </GridItem>
@@ -188,10 +188,10 @@ function Patients({ userCreds }) {
                 >
                   <VStack spacing={2}>
                     <Flex direction="row" justify="center" align="center" width="100%">
-                      <AddHistoryModal patient_id={patient.id} tooth_id={tooth.tooth_id}></AddHistoryModal>
+                      <AddHistoryModal patient_id={patient.id} tooth_id={tooth.tooth_id} setUpdatedId={setUpdatedId}></AddHistoryModal>
                       <AppointmentModal patient={patient} procedures={procedures}></AppointmentModal>
                     </Flex>
-                    <PatientAppointments patient_id={patient.id}></PatientAppointments>
+                    <PatientAppointments patient_id={patient.id} updatedID={updatedId}></PatientAppointments>
                   </VStack>
                 </GridItem>
               </Grid>

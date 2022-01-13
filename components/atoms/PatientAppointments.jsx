@@ -2,13 +2,13 @@ import { Table, Tbody, Th, Thead, Tr, Td } from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const PatientAppointments = ({patient_id}) => {
+const PatientAppointments = ({patient_id, updatedID}) => {
   const [ patientAppointments, setPatientAppointments ] = useState([{ title: "", start: "", end: "" }]);
 
   useEffect(async () => {
     const patient_appointments = await (await axios.post("/api/appointments/patientAppointments", { patient_id: patient_id })).data;
     setPatientAppointments(patient_appointments);
-  }, [patient_id]);
+  }, [patient_id, updatedID]);
 
   return (
     <Table colorScheme="blue" variant="striped">

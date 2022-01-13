@@ -57,7 +57,7 @@ export default function Home() {
                   setSelectedPage={setSelectedPage}
                 ></Menu>
               </GridItem>
-              <GridItem maxHeight="100vh" maxWidth="95vw" overflowY="scroll">
+              <GridItem overflowY="scroll">
                 {
                   switchRender(selectedPage)
                 }

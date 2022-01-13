@@ -14,7 +14,9 @@ import {
   Select,
   Input,
   InputGroup,
-  InputLeftAddon
+  InputLeftAddon,
+  Textarea,
+  Badge
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react';
 import { FaHandHoldingMedical } from "react-icons/fa";
@@ -93,12 +95,6 @@ const setColorFunc = (area, color) => {
   return colors;
 }
 
-const addProcedureToHistory = async (patient, tooth, area, procedure, status, date) => {
-  const query = await axios.post("/api/procedures/addProcedureToHistory", { patient: patient, tooth: tooth, area: area, procedure: procedure, status: status, date: date });
-
-  return;
-}
-
 const validateForm = (area, procedure, status, date) => {
   if(Object.keys(area).length === 0) return false;
   if(procedure === 0 || procedure === "" || procedure === null) return false;
@@ -106,16 +102,19 @@ const validateForm = (area, procedure, status, date) => {
   return moment(date, "YYYY-MM-DD", true).isValid();
 }
 
-const AddHistoryModal = ({ patient_id, tooth_id }) => {
+const AddHistoryModal = ({ patient_id, tooth_id, setUpdatedId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ toothArea, setToothArea ] = useState({});
   const [ procedures, setProcedures ] = useState([]);
   const [ statuses, setStatuses ] = useState([]);
   const [ toothInfo, setToothInfo ] = useState(tooth_info);
+  const [sent, setSent] = useState(false);
+  const [sentStatus, setSentStatus] = useState({ error: false, message: "Sin enviar" });
 
   const [ procedure, setProcedure ] = useState(1);
   const [ status, setStatus ] = useState(1);
   const [ date, setDate ] = useState("");
+  const [ description, setDescription ] = useState("");
 
   useEffect(async () => {
     const get_procedures = await (await axios.post('/api/procedures/getAllProcedures')).data;
@@ -125,29 +124,49 @@ const AddHistoryModal = ({ patient_id, tooth_id }) => {
     setStatuses(get_statuses);
   }, []);
 
+  const addProcedureToHistory = async (patient, tooth, area, procedure, status, date, description) => {
+    const add_procedure_to_history_request = await (await axios.post("/api/procedures/addProcedureToHistory", { patient: patient, tooth: tooth, area: area, procedure: procedure, status: status, date: date, description: description })).data;
+    setSent(true);
+    setUpdatedId(add_procedure_to_history_request.insertId);
+    return add_procedure_to_history_request.affectedRows === 1 ? setSentStatus({ error: false, message: "Agregado" }) : setSentStatus({ error: true, message: "No agregado" }) 
+  }
+
   const cleanData = () => {
     setProcedure(1);
     setStatus(1);
     setDate("");
     setToothInfo(tooth_info);
     setToothArea({});
-  }
+    setDescription("");
+    setSent(false);
+    setSentStatus({ error: false, message: "Sin enviar" });
+    onClose();
+  };
 
   const clickToothArea = (tooth_area) => {
     setToothArea({ area_id: tooth_area, area_name: tooth_info.names[tooth_area - 1] });
     setToothInfo({...toothInfo, colors: setColorFunc(tooth_area, statuses[status - 1].color)});
 
     return;
-  }
+  };
 
   return (
     <>
-      <Button leftIcon={<FaHandHoldingMedical/>} colorScheme="green" width="100%" onClick={onOpen}>Realizar Procedimiento</Button>
+      <Button 
+        leftIcon={<FaHandHoldingMedical/>} 
+        colorScheme="green" 
+        width="100%" 
+        onClick={onOpen}
+        disabled={!!!tooth_id}
+      >Realizar Procedimiento</Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={cleanData} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Agregar Procedimiento al Historial</ModalHeader>
+          <ModalHeader>
+            Agregar Procedimiento al Historial
+            <Badge colorScheme={!sent ? "gray" : sentStatus.error ? "red" : "green"}>{sentStatus.message}</Badge> 
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Grid
@@ -204,8 +223,15 @@ const AddHistoryModal = ({ patient_id, tooth_id }) => {
                     <Input 
                       type="date"
                       onChange={(e) => setDate(e.currentTarget.value)}
-                    ></Input>
+                      ></Input>
                   </InputGroup>
+                  <Textarea
+                    value={description}
+                    onChange={e => setDescription(e.currentTarget.value)}
+                    placeholder="Descripción del procedimiento realizado"
+                    size="md"
+                    resize="none"
+                  />
                 </Flex>
               </GridItem>
             </Grid>
@@ -215,17 +241,15 @@ const AddHistoryModal = ({ patient_id, tooth_id }) => {
               colorScheme='green'
               mr={3}
               disabled={!validateForm(toothArea, procedure, status, date)}
-              onClick={() => {
-                addProcedureToHistory(patient_id, tooth_id, toothArea, procedure, status, date);
-                cleanData();
-              }}
+              onClick={() => addProcedureToHistory(patient_id, tooth_id, toothArea, procedure, status, date, description)}
             >
               Agregar
             </Button>
             <Button 
               colorScheme='blue' 
               mr={3} 
-              onClick={onClose}
+              onClose={cleanData}
+              onClick={cleanData}
             >
               Cerrar
             </Button>

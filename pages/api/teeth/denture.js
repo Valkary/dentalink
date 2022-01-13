@@ -595,7 +595,6 @@ export default function getDenture(req, res) {
 
       const patient_age = await getPatientAge(patientID);
       const isAdult = patient_age >= 18;
-      const teeth_count = isAdult ? 32 : 20;
 
       console.log("> Retrieving teeth data...");
       conn.query(`SELECT JSON_ARRAYAGG(teeth_types.name) as names, JSON_ARRAYAGG(teeth.id) as dientes, JSON_ARRAYAGG(registros.area) as areas, JSON_ARRAYAGG(tooth_areas.name) as positions, JSON_ARRAYAGG(tooth_status.color) as colores FROM teeth LEFT JOIN(SELECT registros.id_patient, registros.id_tooth, registros.id_procedure, registros.status, registros.area FROM (SELECT teeth_history.* FROM (SELECT tooth_history.*, RANK() OVER (PARTITION BY tooth_history.id_tooth, tooth_history.area ORDER BY tooth_history.date DESC) as date_rank FROM tooth_history ORDER BY tooth_history.id ASC) as teeth_history WHERE teeth_history.date_rank = 1 AND teeth_history.id_patient = ${patientID}) as registros WHERE date_rank = 1) as registros ON teeth.id = registros.id_tooth LEFT JOIN tooth_areas ON tooth_areas.id = registros.area LEFT JOIN tooth_status ON tooth_status.id = registros.status LEFT JOIN teeth_types ON teeth.type = teeth_types.id WHERE teeth.position IN(${ isAdult ? positions[0] : positions[1] });`, (err, result) => {

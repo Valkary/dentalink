@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const dimensions = 100;
 
-const Denture = ({ selectTooth, patientID }) => {
+const Denture = ({ selectTooth, patientID, updatedID }) => {
   const [teeth, setTeeth] = useState([]);
   const [adult, setAdult] = useState(true);
 
@@ -25,7 +25,7 @@ const Denture = ({ selectTooth, patientID }) => {
 
     setTeeth(getDenture);
     setAdult(isPatientAdult);
-  }, [patientID])
+  }, [patientID, updatedID])
 
 
   return (
