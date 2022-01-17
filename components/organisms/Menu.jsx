@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 import { FaUserTie, FaUserFriends } from "react-icons/fa";
 import { BsFillCalendarWeekFill } from "react-icons/bs";
 import { useState } from "react";
@@ -21,8 +21,9 @@ const menu_config = {
 }
 
 
-const Menu = ({ setSelectedPage }) => {
+const Menu = ({ setSelectedPage, userCreds }) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const { user_name, security_lvl, first_name, last_name } = userCreds;
 
   if(openMenu) {
     const { width, icon_padding, icon_align } = menu_config.open
@@ -42,19 +43,24 @@ const Menu = ({ setSelectedPage }) => {
 
         pl={icon_padding}
       >
-        <Flex direction="row" justify="flex-end" align="flex-end" width="100%">
-          <Button 
-            colorScheme="white"
-            onClick={() => setOpenMenu(false)}
-            size="lg"
-          >
-            <AiOutlineClose></AiOutlineClose>
-          </Button>
-        </Flex>
-        <Image 
-          src={Logo}
-          alt="imagen no encontrada juasjuas"
-        ></Image>
+        <VStack spacing={2} borderBottom="thin solid white" width="100%">
+          <Flex direction="row" justify="flex-end" align="flex-end" width="100%">
+            <Button 
+              colorScheme="white"
+              onClick={() => setOpenMenu(false)}
+              size="lg"
+            >
+              <AiOutlineClose></AiOutlineClose>
+            </Button>
+          </Flex>
+          <Flex direction="row" justify="center" align="center" width="100%" isTruncated>
+            <Text color="white">{first_name} {last_name}</Text>
+          </Flex>
+          <Image 
+            src={Logo}
+            alt="imagen no encontrada juasjuas"
+          ></Image>
+        </VStack>
         <Button 
           colorScheme="white"
           onClick={() => setSelectedPage("users")}

@@ -7,6 +7,7 @@ import LoginForm from '../components/organisms/LoginForm';
 import Menu from "../components/organisms/menu";
 import Calendar from "../components/organisms/Calendar";
 import Patients from "../components/ecosystems/Patients";
+import Users from "../components/ecosystems/Users";
 // </Pages>
 
 export default function Home() {
@@ -38,7 +39,7 @@ export default function Home() {
       case "calendar":
         return <Calendar></Calendar>;
       case "users":
-        return <></>;
+        return <Users userCreds={credentials}></Users>;
     }
   }
 
@@ -55,6 +56,7 @@ export default function Home() {
               <GridItem>
                 <Menu
                   setSelectedPage={setSelectedPage}
+                  userCreds={credentials}
                 ></Menu>
               </GridItem>
               <GridItem overflowY="scroll">

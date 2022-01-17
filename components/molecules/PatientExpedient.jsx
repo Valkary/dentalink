@@ -52,7 +52,7 @@ const PatientExpedient = ({ patient_data }) => {
           </Tr>
           <Tr>
             <Td>Sexo</Td>
-            <Td>{ sex === 1 ? "Masculino" : "Femenino" }</Td>
+            <Td>{ sex === 0 ? "Masculino" : "Femenino" }</Td>
           </Tr>
           <Tr>
             <Td>Teléfono</Td>
