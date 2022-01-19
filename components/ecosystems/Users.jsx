@@ -1,8 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
 
-import UsersTable from "../atoms/UsersTable";
-import AddUser from "../atoms/AddUser";
+import UsersTable from "../molecules/UsersTable";
 
 const selected_user_initial_state = {
   id: 0,
@@ -35,9 +34,6 @@ const Users = ({ userCreds }) => {
       </Flex>
 
       <UsersTable setSelectedUser={setSelectedUser}/>
-      <Flex direction="column" width="100%">
-        <AddUser />
-      </Flex>
     </Flex>
   );
 };

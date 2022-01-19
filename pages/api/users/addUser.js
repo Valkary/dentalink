@@ -12,7 +12,7 @@ const saveFile = async (file) => {
   try {
     fs.writeFileSync(`images/profile_pictures/${name}`, data);
     fs.unlinkSync(path);
-    console.log(`> Profile picture successfully saved in the server at ${path}`);
+    console.log(`> Profile picture successfully saved in the server at /images/profile_pictures/${name}`);
     return { success: true, path: `/images/profile_pictures/${name}`, name: originalFilename };
   } catch (err) {
     console.log("> User's profile picture could not be stored in the server");
@@ -41,6 +41,16 @@ const insertPatient = async (username, password, first_names, last_names, securi
   });
 };
 
+const updatePatient = async (username, password, first_names, last_names, security_lvl, profile_picture_id, id_user) => {
+  return new Promise((resolve, reject) => {
+    conn.query("UPDATE users set username = ?, password = ?, security_lvl = ?, first_names = ?, last_names = ?, profile_picture = ? WHERE id = ?", [username, password, security_lvl, first_names, last_names, profile_picture_id, id_user], (err, result) => {
+      if (err) throw err;
+      console.log("> User succesfully updated on the database!");
+      return err ? reject(err) : resolve(result.affectedRows);
+    });
+  });
+}
+
 const insertImageToDatabase = async (path, name) => {
   return new Promise((resolve, reject) => {
     conn.query("INSERT INTO images (path, name) VALUES (?,?)", [path, name], (err, result) => {
@@ -65,9 +75,9 @@ handler.use(middleware);
 handler.post(async (req, res) => {
   return new Promise(async (resolve, reject) => {
     console.log("> Recieving new user information...");
-    const { username, password, first_names, last_names, security_lvl } = req.body;
+    const { username, password, first_names, last_names, security_lvl, type, id } = req.body;
 
-    if(await verifyUsernameElegibility(username)) {
+    if(await verifyUsernameElegibility(username) || type[0] === "edit") {
       const { profile_picture } = req.files;
       const file = Object.entries(profile_picture)[0][1];
       const hashed_pwd = await hash_password(password);
@@ -80,20 +90,35 @@ handler.post(async (req, res) => {
         if(success) {
           const image_id = await insertImageToDatabase(path, name);
           console.log("> Image stored in database. Inserting user to db...");
-          insertPatient(username, hashed_pwd, first_names, last_names, security_lvl, image_id);
+          
+          if (type[0] === "add") {
+            insertPatient(username, hashed_pwd, first_names, last_names, security_lvl, image_id);
+          } else if(type[0] === "edit") {
+            updatePatient(username, hashed_pwd, first_names, last_names, security_lvl, image_id, id);
+          }
         } else {
           console.log("> Problem storing profile picture. Inserting user to database...");
-          insertPatient(username, hashed_pwd, first_names, last_names, security_lvl, null);
+
+          if (type[0] === "add") {
+            insertPatient(username, hashed_pwd, first_names, last_names, security_lvl, null);
+          } else if(type[0] === "edit") {
+            updatePatient(username, hashed_pwd, first_names, last_names, security_lvl, null, id);
+          }
         }
       } else {
         console.log("> No profile picture added. Inserting user to database...");
-        insertPatient(username, hashed_pwd, first_names, last_names, security_lvl, null);
+
+        if (type[0] === "add") {
+          insertPatient(username, hashed_pwd, first_names, last_names, security_lvl, null);
+        } else if(type[0] === "edit") {
+          updatePatient(username, hashed_pwd, first_names, last_names, security_lvl, null, id);
+        }
       }
 
-      res.status(200).send({ success: true, message: "Usuario agregado a la base de datos!" });
+      res.status(200).send(type[0] === "add" ? { success: true, message: "Usuario agregado a la base de datos!" } : { success: true, message: "Usuario actualizado en la base de datos!" });
       resolve();
     } else {
-      res.status(200).send({ success: false, message: "Nombre de usuario no elegible" });
+      res.status(200).send(type[0] === "add" ?  { success: false, message: "Nombre de usuario no elegible!" } : { success: false, message: "Error al actualizar el usuario!" });
       resolve();
     }
   });
