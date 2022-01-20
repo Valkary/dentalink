@@ -1,4 +1,4 @@
-import { Button, Flex, Text, Stack, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure, VStack } from "@chakra-ui/react";
+import { Button, Flex, Text, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure, VStack } from "@chakra-ui/react";
 import { FaUserTie, FaUserFriends } from "react-icons/fa";
 import { BsCalendarWeekFill, BsFillCalendarWeekFill } from "react-icons/bs";
 import { useState, useRef } from "react";
@@ -22,7 +22,6 @@ const menu_config = {
 
 
 const Menu = ({ setSelectedPage, userCreds }) => {
-  const [openMenu, setOpenMenu] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 

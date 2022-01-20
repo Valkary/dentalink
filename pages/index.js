@@ -59,7 +59,7 @@ export default function Home() {
                   userCreds={credentials}
                 ></Menu>
               </GridItem>
-              <GridItem overflowY="scroll">
+              <GridItem overflowY="scroll" minH={"100%"} width={"100%"} maxW={"100%"}>
                 {
                   switchRender(selectedPage)
                 }
