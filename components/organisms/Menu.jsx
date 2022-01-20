@@ -1,7 +1,7 @@
-import { Button, Flex, Text, VStack } from "@chakra-ui/react";
+import { Button, Flex, Text, Stack, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure, VStack } from "@chakra-ui/react";
 import { FaUserTie, FaUserFriends } from "react-icons/fa";
-import { BsFillCalendarWeekFill } from "react-icons/bs";
-import { useState } from "react";
+import { BsCalendarWeekFill, BsFillCalendarWeekFill } from "react-icons/bs";
+import { useState, useRef } from "react";
 import Image from 'next/image';
 import Logo from "../../public/logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -23,71 +23,14 @@ const menu_config = {
 
 const Menu = ({ setSelectedPage, userCreds }) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
+
   const { user_name, security_lvl, first_name, last_name } = userCreds;
+  const { width, icon_align, icon_padding } = menu_config.closed
 
-  if(openMenu) {
-    const { width, icon_padding, icon_align } = menu_config.open
-
-    return (
-      <Flex
-        direction="column"
-        justify="flex-start"
-        width="100%"
-        height="100%"
-        background="#001b26"
-        zIndex={1000}
-        position="absolute"
-        
-        align={icon_align}
-        width={width}
-
-        pl={icon_padding}
-      >
-        <VStack spacing={2} borderBottom="thin solid white" width="100%">
-          <Flex direction="row" justify="flex-end" align="flex-end" width="100%">
-            <Button 
-              colorScheme="white"
-              onClick={() => setOpenMenu(false)}
-              size="lg"
-            >
-              <AiOutlineClose></AiOutlineClose>
-            </Button>
-          </Flex>
-          <Flex direction="row" justify="center" align="center" width="100%" isTruncated>
-            <Text color="white">{first_name} {last_name}</Text>
-          </Flex>
-          <Image 
-            src={Logo}
-            alt="imagen no encontrada juasjuas"
-          ></Image>
-        </VStack>
-        <Button 
-          colorScheme="white"
-          onClick={() => setSelectedPage("users")}
-        >
-          <FaUserTie></FaUserTie>
-          <Text pl="1em">Usuarios</Text>
-        </Button>
-        <Button 
-          colorScheme="white"
-          onClick={() => setSelectedPage("patients")}
-        >
-          <FaUserFriends></FaUserFriends>
-          <Text pl="1em">Pacientes</Text>
-        </Button>
-        <Button 
-          colorScheme="white"
-          onClick={() => setSelectedPage("calendar")}
-        >
-          <BsFillCalendarWeekFill></BsFillCalendarWeekFill>
-          <Text pl="1em">Calendario</Text>
-        </Button>
-      </Flex>
-    )
-  } else {
-    const { width, icon_padding, icon_align } = menu_config.closed
-
-    return (
+  return (
+    <>
       <Flex
         direction="column"
         justify="flex-start"
@@ -104,21 +47,24 @@ const Menu = ({ setSelectedPage, userCreds }) => {
       >
         <Button 
           colorScheme="white"
-          onClick={() => setOpenMenu(true)}
+          ref={btnRef}
+          onClick={onOpen}
           size="lg"
-        >
-          <GiHamburgerMenu></GiHamburgerMenu>
-        </Button>
+          leftIcon={<GiHamburgerMenu/>}
+        ></Button>
         <Image 
           src={Logo}
           alt="imagen no encontrada juasjuas"
         ></Image>
-        <Button 
-          colorScheme="white"
-          onClick={() => setSelectedPage("users")}
-        >
-          <FaUserTie></FaUserTie>
-        </Button>
+        {
+          security_lvl < 2 &&
+            <Button 
+              colorScheme="white"
+              onClick={() => setSelectedPage("users")}
+            >
+              <FaUserTie></FaUserTie>
+            </Button>
+        }
         <Button 
           colorScheme="white"
           onClick={() => setSelectedPage("patients")}
@@ -132,8 +78,66 @@ const Menu = ({ setSelectedPage, userCreds }) => {
           <BsFillCalendarWeekFill></BsFillCalendarWeekFill>
         </Button>
       </Flex>
-    )
-  }
+
+      <Drawer
+        isOpen={isOpen}
+        placement='left'
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        size={"xs"}
+      >
+        <DrawerOverlay />
+        <DrawerContent background={"#001b26"}>
+          <Flex direction={"row"} align={"center"} justify={"flex-end"}>
+            <DrawerHeader color={"white"}>DentalInk</DrawerHeader>
+            <Flex flexGrow={1}></Flex>
+            <Button colorScheme={"white"} onClick={onClose}>
+              <DrawerCloseButton />
+            </Button>
+          </Flex>
+
+          <DrawerBody>
+            <VStack spacing={2} justify={"flex-start"} direction={"column"} align={"flex-start"}>
+              <Image 
+                src={Logo}
+                alt="imagen no encontrada juasjuas"
+              ></Image>
+              {
+                security_lvl < 2 &&
+                  <Button 
+                    colorScheme="white"
+                    onClick={() => setSelectedPage("users")}
+                    leftIcon={<FaUserTie/>}
+                  >
+                    Usuarios
+                  </Button>
+              }
+              <Button 
+                colorScheme="white"
+                onClick={() => setSelectedPage("patients")}
+                leftIcon={<FaUserFriends/>}
+              >
+                Pacientes
+              </Button>
+              <Button 
+                colorScheme="white"
+                onClick={() => setSelectedPage("calendar")}
+                leftIcon={<BsCalendarWeekFill/>}
+              >
+                Calendario
+              </Button>
+            </VStack>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Flex justify={"flex-end"} align={"center"} direction={"row"}>
+              <Text color={"white"} fontSize={"lg"} fontStyle={"italic"}>{first_name} {last_name}</Text>
+            </Flex>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
+  );
 }
 
 export default Menu;
