@@ -7,24 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useState, useReducer } from "react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Select,
-  InputGroup,
-  InputAddon,
-  Input,
-  Stack,
-  InputLeftElement,
-  Badge,
-  Button,
-	useDisclosure
-} from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Select, InputGroup, InputAddon, Input, Stack, InputLeftElement, Badge, Button, useDisclosure } from '@chakra-ui/react'
 
 const appointmentReducer = (state, action) => {
   switch(action.type) {
@@ -53,14 +36,12 @@ const Calendar = ({}) => {
 	const [ appointments, setAppointments ] = useState([{}]);
 	const [ procedures, setProcedures ] = useState([]);
 	const [ patients, setPatients ] = useState([]);
-	
-	const { isOpen, onOpen, onClose } = useDisclosure();
   const [ sent, setSent ] = useState(false);
   const [ sentStatus, setSentStatus ] = useState({ error: false, message: "Sin agendar" });
-
   const [ patient_id, setPatient_id ] = useState(1);
 	const [ insert_id, setInsert_id ]= useState(0);
-
+	
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [ state, dispatch ] = useReducer(appointmentReducer, appointmentInitialState);
 
   const makeAppointment = async (state) => {

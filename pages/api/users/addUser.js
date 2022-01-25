@@ -10,9 +10,9 @@ const saveFile = async (file) => {
   const data = fs.readFileSync(path);
   
   try {
-    fs.writeFileSync(`images/profile_pictures/${name}`, data);
+    fs.writeFileSync(`public/images/profile_pictures/${name}`, data);
     fs.unlinkSync(path);
-    console.log(`> Profile picture successfully saved in the server at /images/profile_pictures/${name}`);
+    console.log(`> Profile picture successfully saved in the server at /public/images/profile_pictures/${name}`);
     return { success: true, path: `/images/profile_pictures/${name}`, name: originalFilename };
   } catch (err) {
     console.log("> User's profile picture could not be stored in the server");

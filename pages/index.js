@@ -8,6 +8,7 @@ import Menu from "../components/organisms/menu";
 import Calendar from "../components/organisms/Calendar";
 import Patients from "../components/ecosystems/Patients";
 import Users from "../components/ecosystems/Users";
+import Dashboard from "../components/ecosystems/Dashboard";
 // </Pages>
 
 export default function Home() {
@@ -40,6 +41,8 @@ export default function Home() {
         return <Calendar></Calendar>;
       case "users":
         return <Users userCreds={credentials}></Users>;
+      case "dashboard":
+        return <Dashboard userCreds={credentials}></Dashboard>;
     }
   }
 

@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import Image from 'next/image';
 import Logo from "../../public/logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const menu_config = {
   open: {
@@ -55,6 +55,12 @@ const Menu = ({ setSelectedPage, userCreds }) => {
           src={Logo}
           alt="imagen no encontrada juasjuas"
         ></Image>
+        <Button 
+          colorScheme="white"
+          onClick={() => setSelectedPage("dashboard")}
+        >
+          <AiOutlineDashboard></AiOutlineDashboard>
+        </Button>
         {
           security_lvl < 2 &&
             <Button 
@@ -101,6 +107,13 @@ const Menu = ({ setSelectedPage, userCreds }) => {
                 src={Logo}
                 alt="imagen no encontrada juasjuas"
               ></Image>
+              <Button 
+                colorScheme="white"
+                onClick={() => setSelectedPage("dashboard")}
+                leftIcon={<AiOutlineDashboard/>}
+              >
+                Dashboard
+              </Button>
               {
                 security_lvl < 2 &&
                   <Button 
