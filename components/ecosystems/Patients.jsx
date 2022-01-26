@@ -1,4 +1,4 @@
-import { Button, Flex, Grid, GridItem, HStack, VStack } from "@chakra-ui/react";
+import { Button, Flex, Grid, GridItem, HStack, StackDivider, VStack } from "@chakra-ui/react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 import { useState, useEffect } from "react";
@@ -162,10 +162,11 @@ function Patients({ userCreds }) {
                 <DentureColors></DentureColors>
                 <Denture selectTooth={selectToothFunc} patientID={patient.id} updatedID={updatedId}></Denture>
               </VStack>
+              
               <Grid
                 pl="2rem"
                 pr="2rem"
-                templateColumns="[denture] 4fr [appointments] 1fr"
+                templateColumns="70% 30%"
                 columnGap={2}
                 pt="3rem"
               >
@@ -173,7 +174,7 @@ function Patients({ userCreds }) {
                   colStart={1}
                   colSpan={1}
                 >
-                  <Flex direction="column" width="100%" height="100%" justify="start" align="start">
+                  <VStack spacing={2}>
                     <ToothHistoryTable
                       toothName={tooth.tooth_name}
                       toothID={tooth.tooth_id}
@@ -181,7 +182,7 @@ function Patients({ userCreds }) {
                       updatedID={updatedId}
                     ></ToothHistoryTable>
                     <HistoryImages patient={patient}/>
-                  </Flex>
+                  </VStack>
                 </GridItem>
                 
                 <GridItem

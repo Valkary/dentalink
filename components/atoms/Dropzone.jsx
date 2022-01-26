@@ -24,13 +24,13 @@ function getIconColor(status, theme) {
     : theme.black;
 }
 
-const HistoryDropzone = ({ uploadNewImage }) => {
+const HistoryDropzone = ({ uploadNewImage, rejectNewFile }) => {
   const theme = useMantineTheme();
 
   return (
     <Dropzone 
       onDrop={(files) => uploadNewImage(files)}
-      onReject={(files) => console.log('rejected files', files)}
+      onReject={(files) => rejectNewFile(files)}
       maxSize={3 * 1024 ** 2}
       accept={IMAGE_MIME_TYPE}
       children
