@@ -26,7 +26,7 @@ const Dashboard = ({ userCreds }) => {
       <Grid
         width={"100%"}
         height={"100%"}
-        gridTemplateColumns={"[user-options] 75% [itinerary] 20%"}
+        gridTemplateColumns={"[user-options] 70% [itinerary] 25%"}
         overflowY={"scroll"}
         overflowX={"visible"}
         style={{

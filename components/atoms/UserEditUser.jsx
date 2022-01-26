@@ -221,7 +221,7 @@ const EditUser = ({ idUser, profilePicturePath, userCreds }) => {
               {
                 (profilePicturePath === "" && changed === false) ?
                   <AiOutlineUser size="60%"/> :
-                  <Image src={changed ? profilePicture : profilePicturePath} alt="Error" width="100%" height="auto"/>
+                  <Image src={changed ? profilePicture : profilePicturePath} alt="Error" width="auto" height="auto"/>
               }
             </Button>
             <input

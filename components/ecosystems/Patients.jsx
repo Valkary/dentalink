@@ -15,6 +15,7 @@ import axios from "axios";
   import ToothHistoryTable from "../molecules/ToothHistoryTable";
   import CreatePatientModal from "../organisms/CreatePatientModal";
   import AddHistoryModal from "../molecules/AddHistoryModal";
+import HistoryImages from "../molecules/HistoryImages";
 // </CustomComponets>
 
 function Patients({ userCreds }) {
@@ -62,12 +63,10 @@ function Patients({ userCreds }) {
   return (
     <Grid
       templateColumns="75% 25%"
-      templateRows="[auto] 5vh [lista-pacientes] auto [informacion-paciente] auto [dentadura-paciente] auto"
+      templateRows="[title] 5vh [lista-pacientes] auto [informacion-paciente] auto [dentadura-paciente] auto"
       gap={2}
       pl="1rem"
       pr="1rem"
-      minHeight="100vh"
-      height="100%"
       width="95vw"
     >
       <GridItem
@@ -82,6 +81,7 @@ function Patients({ userCreds }) {
           </div>
         </Flex>
       </GridItem>
+
       <GridItem
         colStart={1}
         colEnd={3}
@@ -155,7 +155,8 @@ function Patients({ userCreds }) {
             </Button>
           </Flex>
 
-          {showPatientDenture ?
+          {
+          showPatientDenture &&
             <Flex direction="column" pt="1.5rem" background="gray.50" minHeight="80vh" height="100%">
               <VStack spacing={4} width="100%">
                 <DentureColors></DentureColors>
@@ -179,6 +180,7 @@ function Patients({ userCreds }) {
                       patientID={patient.id}
                       updatedID={updatedId}
                     ></ToothHistoryTable>
+                    <HistoryImages patient={patient}/>
                   </Flex>
                 </GridItem>
                 
@@ -195,8 +197,8 @@ function Patients({ userCreds }) {
                   </VStack>
                 </GridItem>
               </Grid>
-            </Flex> :
-            <></>}
+            </Flex>
+          }
         </GridItem> :
         <></>}
     </Grid>

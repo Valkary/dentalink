@@ -11,7 +11,8 @@ import {
   Box,
   Avatar,
   FormControl,
-  InputRightElement
+  InputRightElement,
+  useToast
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import AuthContext from "../../contexts/AuthContext";
@@ -21,6 +22,7 @@ const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 const LoginForm = ({ logFunc }) => {
+  const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +57,13 @@ const LoginForm = ({ logFunc }) => {
           }
         });
       } else {
-        alert(message);
+        toast({
+          title: 'Error al loggear',
+          description: message,
+          status: "error",
+          duration: 9000,
+          isClosable: true
+        });
       }
     });
   }
